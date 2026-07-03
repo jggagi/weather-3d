@@ -1,0 +1,8 @@
+{
+  "name": "Weather 3D",
+  "emoji": "🌦️",
+  "description": "3D Weather Visualization Dashboard",
+  "type": "static",
+  "servePath": "dist",
+  "route": "/weather-3d"
+}
