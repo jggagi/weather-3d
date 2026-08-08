@@ -1,7 +1,24 @@
 import React, { useRef, useMemo } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Cloud, Sky, Stars, Sparkles } from '@react-three/drei';
-import * as THREE from 'three';
+
+function seededRandom(index, seed) {
+  const value = Math.sin(index * 12.9898 + seed * 78.233) * 43758.5453;
+  return value - Math.floor(value);
+}
+
+function createParticlePositions(count, seed) {
+  const positions = new Float32Array(count * 3);
+
+  for (let i = 0; i < count; i += 1) {
+    const offset = i * 3;
+    positions[offset] = (seededRandom(offset, seed) - 0.5) * 30;
+    positions[offset + 1] = seededRandom(offset + 1, seed) * 20 - 5;
+    positions[offset + 2] = (seededRandom(offset + 2, seed) - 0.5) * 15;
+  }
+
+  return positions;
+}
 
 // ========== Sun ==========
 const Sun = () => {
@@ -78,13 +95,7 @@ const Rain = () => {
   const count = 2000;
 
   const positions = useMemo(() => {
-    const arr = new Float32Array(count * 3);
-    for (let i = 0; i < count; i++) {
-      arr[i * 3] = (Math.random() - 0.5) * 30;      // x
-      arr[i * 3 + 1] = Math.random() * 20 - 5;       // y
-      arr[i * 3 + 2] = (Math.random() - 0.5) * 15;   // z
-    }
-    return arr;
+    return createParticlePositions(count, 17);
   }, []);
 
   useFrame(() => {
@@ -121,13 +132,7 @@ const Snow = () => {
   const count = 1500;
 
   const positions = useMemo(() => {
-    const arr = new Float32Array(count * 3);
-    for (let i = 0; i < count; i++) {
-      arr[i * 3] = (Math.random() - 0.5) * 30;
-      arr[i * 3 + 1] = Math.random() * 20 - 5;
-      arr[i * 3 + 2] = (Math.random() - 0.5) * 15;
-    }
-    return arr;
+    return createParticlePositions(count, 31);
   }, []);
 
   useFrame((state) => {
