@@ -1,6 +1,7 @@
 import React, { useRef, useMemo } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Cloud, Sky, Stars, Sparkles } from '@react-three/drei';
+import { Cloud, Clouds, Sky, Stars, Sparkles } from '@react-three/drei';
+import cloudMaskUrl from '../assets/cloud-mask.svg';
 
 function seededRandom(index, seed) {
   const value = Math.sin(index * 12.9898 + seed * 78.233) * 43758.5453;
@@ -232,7 +233,7 @@ const SceneContents = ({ conditionType, isNight }) => {
 
       {/* Clouds — shown for cloudy, rainy, snowy */}
       {(isCloudy || isRainy || isSnowy) && (
-        <group position={[0, 6, -10]}>
+        <Clouds texture={cloudMaskUrl} position={[0, 6, -10]}>
           <Cloud
             opacity={isRainy ? 0.9 : 0.7}
             speed={0.4}
@@ -260,7 +261,7 @@ const SceneContents = ({ conditionType, isNight }) => {
             color={isRainy ? '#778899' : '#ffffff'}
             position={[0, 3, -3]}
           />
-        </group>
+        </Clouds>
       )}
 
       {/* Precipitation */}

@@ -4,7 +4,7 @@ import {
   Gauge, Eye, Sun, CloudRain, RefreshCw, Clock
 } from 'lucide-react';
 
-const WeatherUI = ({ weather, location, onSearch, onRefresh, loading }) => {
+const CitySearchForm = ({ onSearch }) => {
   const [searchInput, setSearchInput] = useState('');
 
   const handleSearch = (e) => {
@@ -15,16 +15,45 @@ const WeatherUI = ({ weather, location, onSearch, onRefresh, loading }) => {
     }
   };
 
-  if (!weather && loading) {
+  return (
+    <form className="search-container" onSubmit={handleSearch} role="search" aria-label="Search weather by city">
+      <Search className="search-icon" size={18} />
+      <input
+        type="text"
+        className="search-input"
+        placeholder="Search city..."
+        aria-label="City name"
+        value={searchInput}
+        onChange={(e) => setSearchInput(e.target.value)}
+      />
+    </form>
+  );
+};
+
+const WeatherUI = ({ weather, location, onSearch, onRefresh, onRetry, loading, error }) => {
+
+  if (!weather) {
     return (
-      <div className="loading-overlay">
-        <div className="spinner"></div>
-        <p>Detecting your location...</p>
+      <div className="ui-overlay">
+        <div className="top-bar">
+          <CitySearchForm onSearch={onSearch} />
+        </div>
+        <section aria-live="polite" aria-busy={loading} style={{ color: 'white', textAlign: 'center', margin: 'auto' }}>
+          {loading ? (
+            <>
+              <div className="spinner" aria-hidden="true" style={{ margin: '0 auto' }}></div>
+              <p>Finding a location and loading its weather…</p>
+            </>
+          ) : (
+            <>
+              <p>{error || 'Weather is unavailable. Search for a city or retry location detection.'}</p>
+              <button className="error-retry" type="button" onClick={onRetry}>Retry</button>
+            </>
+          )}
+        </section>
       </div>
     );
   }
-
-  if (!weather) return null;
 
   return (
     <div className="ui-overlay">
@@ -51,21 +80,18 @@ const WeatherUI = ({ weather, location, onSearch, onRefresh, loading }) => {
           <p className="weather-desc">{weather.description}</p>
           <p className="last-updated">
             <Clock size={12} />
-            Updated {weather.lastUpdated}
+            {weather.provider || 'Weather provider'} · reported: {weather.observedAt || weather.lastUpdated || 'time unavailable'}
           </p>
         </div>
 
-        <form className="search-container" onSubmit={handleSearch}>
-          <Search className="search-icon" size={18} />
-          <input
-            type="text"
-            className="search-input"
-            placeholder="Search city..."
-            value={searchInput}
-            onChange={(e) => setSearchInput(e.target.value)}
-          />
-        </form>
+        <CitySearchForm onSearch={onSearch} />
       </div>
+
+      {error && (
+        <p role="status" aria-live="polite" style={{ color: 'white', margin: '0 auto', maxWidth: '1200px', width: '100%' }}>
+          Showing previous {weather.provider || 'provider'} data; refresh failed: {error}
+        </p>
+      )}
 
       {/* Middle section: Hourly Forecast */}
       {weather.hourlyForecast && weather.hourlyForecast.length > 0 && (

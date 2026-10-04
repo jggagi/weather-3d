@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="128" viewBox="0 0 256 128">
+  <defs>
+    <radialGradient id="soft-cloud" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#fff" stop-opacity="1" />
+      <stop offset="0.58" stop-color="#fff" stop-opacity="0.92" />
+      <stop offset="1" stop-color="#fff" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <ellipse cx="78" cy="67" rx="68" ry="47" fill="url(#soft-cloud)" />
+  <ellipse cx="132" cy="54" rx="72" ry="58" fill="url(#soft-cloud)" />
+  <ellipse cx="188" cy="69" rx="64" ry="45" fill="url(#soft-cloud)" />
+  <ellipse cx="128" cy="88" rx="105" ry="35" fill="url(#soft-cloud)" />
+</svg>
