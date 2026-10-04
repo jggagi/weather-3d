@@ -5,4 +5,5 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   base: './',  // Use relative paths so Electron can load from file://
+  resolve: { preserveSymlinks: true },
 })

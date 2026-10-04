@@ -164,6 +164,8 @@ export const fetchWeather = async (lat, lon) => {
     const isNight = current.is_day === 0;
 
     return {
+      provider: 'Open-Meteo',
+      observedAt: current.time,
       // Current conditions
       temperature: Math.round(current.temperature_2m),
       feelsLike: Math.round(current.apparent_temperature),

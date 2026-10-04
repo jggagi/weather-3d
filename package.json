@@ -8,12 +8,12 @@
   "main": "electron/main.cjs",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "lint": "eslint .",
-    "preview": "vite preview",
-    "electron:dev": "concurrently \"vite\" \"sleep 3 && electron .\"",
-    "electron:build": "vite build && electron-builder --mac",
+    "dev": "node --preserve-symlinks --preserve-symlinks-main node_modules/vite/bin/vite.js --configLoader native",
+    "build": "node --preserve-symlinks --preserve-symlinks-main node_modules/vite/bin/vite.js build --configLoader native",
+    "lint": "node --preserve-symlinks --preserve-symlinks-main node_modules/eslint/bin/eslint.js .",
+    "preview": "node --preserve-symlinks --preserve-symlinks-main node_modules/vite/bin/vite.js preview --configLoader native",
+    "electron:dev": "concurrently \"npm run dev\" \"sleep 3 && electron .\"",
+    "electron:build": "npm run build && electron-builder --mac",
     "electron:start": "electron ."
   },
   "build": {
